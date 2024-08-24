@@ -1,0 +1,17 @@
+:root {
+    --ruby-red: #9b111e;
+    --light-ruby: #d93d47;
+    --white: #ffffff;
+}
+
+#inicio {
+    height: 430px;
+    background: rgb(2, 0, 36);
+    background: linear-gradient(90deg, rgba(2, 0, 36, 1) 0%, rgba(121, 9, 9, 1) 42%, rgba(255, 0, 48, 1) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
