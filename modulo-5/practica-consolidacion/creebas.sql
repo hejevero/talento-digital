@@ -14,26 +14,29 @@ CREATE TABLE film (
     title VARCHAR(255) NOT NULL,
     description TEXT,
     release_year YEAR,
-    language_id SMALLINT NOT NULL,
-    rental_duration SMALLINT NOT NULL DEFAULT 3,
+    language_id BIGINT NOT NULL,
+    rental_duration BIGINT NOT NULL DEFAULT 3,
     rental_rate DECIMAL(4, 2) NOT NULL DEFAULT 4.99,
-    length SMALLINT,
-    replacement_cost DECIMAL(5, 2) NOT NULL DEFAULT 19.99,
+    length BIGINT,
+    replacement_cost INTEGER NOT NULL DEFAULT 19990,
     rating CHAR(10) DEFAULT 'G',
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+    special_features TEXT
+    fulltext TEXT
 );
 
 -- Creación de tabla "customer"
 CREATE TABLE customer (
     customer_id SERIAL PRIMARY KEY,
-    store_id SMALLINT NOT NULL,
+    store_id BIGINT NOT NULL,
     first_name VARCHAR(45) NOT NULL,
     last_name VARCHAR(45) NOT NULL,
     email VARCHAR(50),
-    address_id SMALLINT NOT NULL,
-    active BOOLEAN NOT NULL DEFAULT TRUE,
+    address_id BIGINT NOT NULL,
+    activebool BOOLEAN NOT NULL,
     create_date DATE NOT NULL,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+    active BOOLEAN NOT NULL DEFAULT true
 );
 
 -- Creación de tabla "address"
@@ -42,7 +45,7 @@ CREATE TABLE address (
     address VARCHAR(50) NOT NULL,
     address2 VARCHAR(50),
     district VARCHAR(20) NOT NULL,
-    city_id SMALLINT NOT NULL,
+    city_id BIGINT NOT NULL,
     postal_code VARCHAR(10),
     phone VARCHAR(20) NOT NULL,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
@@ -52,7 +55,7 @@ CREATE TABLE address (
 CREATE TABLE city (
     city_id SERIAL PRIMARY KEY,
     city VARCHAR(50) NOT NULL,
-    country_id SMALLINT NOT NULL,
+    country_id BIGINT NOT NULL,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -66,30 +69,29 @@ CREATE TABLE country (
 -- Creación de tabla "inventory"
 CREATE TABLE inventory (
     inventory_id SERIAL PRIMARY KEY,
-    film_id SMALLINT NOT NULL,
-    store_id SMALLINT NOT NULL,
+    film_id BIGINT NOT NULL,
+    store_id BIGINT NOT NULL,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
 -- Creación de tabla "payment"
 CREATE TABLE payment (
     payment_id SERIAL PRIMARY KEY,
-    customer_id SMALLINT NOT NULL,
-    staff_id SMALLINT NOT NULL,
-    rental_id SMALLINT NOT NULL,
-    amount DECIMAL(5, 2) NOT NULL,
-    payment_date TIMESTAMP NOT NULL,
-    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+    customer_id BIGINT NOT NULL,
+    staff_id BIGINT NOT NULL,
+    rental_id BIGINT NOT NULL,
+    amount BIGINT NOT NULL,
+    payment_date TIMESTAMP NOT NULL
 );
 
 -- Creación de tabla "rental"
 CREATE TABLE rental (
     rental_id SERIAL PRIMARY KEY,
     rental_date TIMESTAMP NOT NULL,
-    inventory_id SMALLINT NOT NULL,
-    customer_id SMALLINT NOT NULL,
+    inventory_id BIGINT NOT NULL,
+    customer_id BIGINT NOT NULL,
     return_date TIMESTAMP,
-    staff_id SMALLINT NOT NULL,
+    staff_id BIGINT NOT NULL,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 
@@ -98,20 +100,21 @@ CREATE TABLE staff (
     staff_id SERIAL PRIMARY KEY,
     first_name VARCHAR(45) NOT NULL,
     last_name VARCHAR(45) NOT NULL,
-    address_id SMALLINT NOT NULL,
+    address_id BIGINT NOT NULL,
     email VARCHAR(50),
-    store_id SMALLINT NOT NULL,
+    store_id BIGINT NOT NULL,
     active BOOLEAN NOT NULL DEFAULT TRUE,
     username VARCHAR(16) NOT NULL,
     password VARCHAR(40),
-    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+    last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    picture TEXT
 );
 
 -- Creación de tabla "store"
 CREATE TABLE store (
     store_id SERIAL PRIMARY KEY,
-    manager_staff_id SMALLINT NOT NULL,
-    address_id SMALLINT NOT NULL,
+    manager_staff_id BIGINT NOT NULL,
+    address_id BIGINT NOT NULL,
     last_update TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );
 

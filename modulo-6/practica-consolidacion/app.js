@@ -4,7 +4,7 @@ const PORT = 3000;
 
 const main = () => {
     app.listen(PORT, () => {
-        console.log(`Servidor escuchando en el puerto ${PORT}: https://localhost:${PORT}`);
+        console.log(`Servidor escuchando en el puerto ${PORT}: http://localhost:${PORT}`);
     });
 };
 

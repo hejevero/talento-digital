@@ -1,16 +1,23 @@
 const express = require("express");
 const anime = require("./anime.json");
-const ds = require("fs/promises");
+const fs = require("fs/promises");
 
 const app = new express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.get("/api/anime", async (req, res) => {
-    res.send({ code: 200, message: "Listado de animes." });
+//Get a url base
+app.get("/", async (req, res) => {
+    res.send({ code: 200, message: "Para ver mas utiliza la api/anime." });
 });
 
+//Get a url base de la api
+app.get("/api/anime", async (req, res) => {
+    res.send({ code: 200, message: "Listado de animes.", data: anime });
+});
+
+//Get funcion buscar Buscar
 app.get("/api/anime/:parametro", (req, res) => {
     try {
         const parametro = req.params.parametro.toLocaleLowerCase();
@@ -18,11 +25,12 @@ app.get("/api/anime/:parametro", (req, res) => {
         const animeItem =
             anime[parametro] ||
             Object.values(anime).find((aniObj) => {
-                aniObj.nombre.toLocaleLowerCase() === parametro;
+                aniObj.nombre.toLocaleLowerCase() == parametro;
             });
 
         if (animeItem) {
-            res.send({ code: 200, message: `Detalle anime`, data: anime.animeItem });
+            console.log(animeItem);
+            res.send({ code: 200, message: `Detalle anime`, data: animeItem });
         } else {
             res.status(400).send({ code: 400, message: `Anime no encontrado.` });
         }
@@ -31,9 +39,10 @@ app.get("/api/anime/:parametro", (req, res) => {
     }
 });
 
+//Get funcion actualizar anime
 app.put("/api/anime/:id", async (req, res) => {
     try {
-        const data = await fstat.readFile("./anime.json", "utf8");
+        const data = await fs.readFile("./anime.json", "utf8");
         const animeData = JSON.parse(data);
 
         const idActualizar = req.params.id;
@@ -44,15 +53,18 @@ app.put("/api/anime/:id", async (req, res) => {
                 animeData[idActualizar][key] = actualizar[key];
             });
 
-            await fs.writeFile("./anime.json", JSON.stringify(animeData));
+            await fs.writeFile("./anime.json", JSON.stringify(animeData, null, 2));
+
+            res.status(200).send({ code: 200, message: `Anime modificado sin problemas` });
         } else {
             res.status(400).send({ code: 400, message: `Anime no encontrado.` });
         }
     } catch (error) {
-        res.status(500).send({ code: 500, message: `Error interno del servidor.` });
+        res.status(500).send({ code: 500, message: `Error interno del servidor.`, data: error.message });
     }
 });
 
+//Get funcion agregar anime
 app.post("/api/anime", async (req, res) => {
     try {
         const nuevoAnime = req.body;
@@ -63,13 +75,15 @@ app.post("/api/anime", async (req, res) => {
         const proximoNumero = numeroMayor + 1;
         animeData[proximoNumero] = nuevoAnime;
 
-        await fs.writeFile("./anime.json", JSON.stringify(animeData, "utf8"));
-        res.send({ code: 200, message: `Anime creado exitosamente.` });
+        await fs.writeFile("./anime.json", JSON.stringify(animeData, null, 2), "utf8");
+
+        res.status(200).send({ code: 200, message: `Anime creado exitosamente.` });
     } catch (error) {
-        res.status(500).send({ code: 500, message: `Error interno del servidor.` });
+        res.status(500).send({ code: 500, message: `Error interno del servidor.`, data: error.message });
     }
 });
 
+//Get funcion eliminar anime
 app.delete("/api/anime/:id", async (req, res) => {
     try {
         const data = await fs.readFile("./anime.json", "utf8");
@@ -90,4 +104,5 @@ app.delete("/api/anime/:id", async (req, res) => {
     }
 });
 
+//Exportar contenido
 module.exports = app;
