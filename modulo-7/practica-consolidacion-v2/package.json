@@ -1,0 +1,20 @@
+{
+    "name": "practica-consolidacion-v2",
+    "version": "1.0.0",
+    "main": "index.js",
+    "type": "module",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon server.js"
+    },
+    "keywords": [],
+    "author": "Helmo Velásquez",
+    "license": "MIT",
+    "description": "",
+    "dependencies": {
+        "pg": "^8.13.1",
+        "pg-hstore": "^2.3.4",
+        "sequelize": "^6.37.5"
+    }
+}
+
