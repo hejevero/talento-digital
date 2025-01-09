@@ -8,10 +8,8 @@ const usuario = {
     email: "helmo.velasquez@gmail.com",
 };
 
-const createUser = async () => {
+const createUser = async (firstName, lastName, email) => {
     try {
-        const { firstName, lastName, email } = usuario;
-
         const findEmail = await user.findOne({ where: { email } });
 
         if (findEmail) {
@@ -26,4 +24,15 @@ const createUser = async () => {
     }
 };
 
-createUser();
+const findUserById = async (id) => {
+    try {
+        const findUser = User.findByPk(id);
+
+        if (!findUser) {
+            console.log(`No se pudo encontrar el usuario con id: ${id}.`);
+            return;
+        }
+    } catch (error) {
+        console.log(error.message);
+    }
+};
