@@ -7,43 +7,57 @@ User.createUser = async ({ firstName, lastName, email } = {}) => {
         const findEmail = await User.findOne({ where: { email } });
 
         if (findEmail) {
+            console.log("*************************************************************************");
             console.log(`El usuario con el email ${email} ya se encuentra registrado.`);
+            console.log("*************************************************************************");
             return;
         } else {
             const newUser = await User.create({ firstName, lastName, email });
 
             if (newUser) {
-                console.log(`Se ha creado el Usuario: .`, await User.findUserById(newUser.id));
+                console.log("*************************************************************************");
+                console.log(`Se ha creado el Usuario: .`, await User.findByPk(newUser.id, { raw: true }));
+                console.log("*************************************************************************");
             } else {
+                console.log("*************************************************************************");
                 console.log("No se pudo guardar el usuario: " + firstName + " " + lastName);
+                console.log("*************************************************************************");
             }
         }
     } catch (error) {
+        console.log("*************************************************************************");
         console.log("createUser", error.message);
+        console.log("*************************************************************************");
     }
 };
 
 User.findUserById = async (id) => {
     try {
-        const findUser = User.findByPk(id, {
+        const findUser = await User.findByPk(id, {
             include: [
                 {
                     model: Bootcamp,
                     as: "bootcamp",
                     attributes: ["id", "title"],
-                    raw: true,
                 },
             ],
+            raw: true,
         });
 
         if (!findUser) {
+            console.log("*************************************************************************");
             console.log(`No se pudo encontrar el usuario con id: ${id}.`);
+            console.log("*************************************************************************");
             return;
         }
 
-        return findUser;
+        console.log("*************************************************************************");
+        console.log(`Usuario con id ${id}:`, findUser);
+        console.log("*************************************************************************");
     } catch (error) {
+        console.log("*************************************************************************");
         console.log("findUserById", error.message);
+        console.log("*************************************************************************");
     }
 };
 
@@ -56,11 +70,16 @@ User.findAllUsers = async () => {
                     as: "bootcamp",
                 },
             ],
+            raw: true,
         });
 
-        console.log(allUsers);
+        console.log("*************************************************************************");
+        console.log(`Lista de usuarios: `, allUsers);
+        console.log("*************************************************************************");
     } catch (error) {
+        console.log("*************************************************************************");
         console.log("findAll", error.message);
+        console.log("*************************************************************************");
     }
 };
 
@@ -69,7 +88,9 @@ User.updateUserById = async (id, firstName, lastName, email) => {
         const findUser = await User.findByPk(id);
 
         if (!findUser) {
+            console.log("*************************************************************************");
             console.log("updateUserById", "Usuario no encontrado");
+            console.log("*************************************************************************");
             return;
         }
 
@@ -86,18 +107,24 @@ User.updateUserById = async (id, firstName, lastName, email) => {
             }
         );
 
+        console.log("*************************************************************************");
         console.log("El usuario ha sido actualizado sin problemas.");
+        console.log("*************************************************************************");
     } catch (error) {
+        console.log("*************************************************************************");
         console.log("updateUserById", error.message);
+        console.log("*************************************************************************");
     }
 };
 
-User.deleteUserById = async () => {
+User.deleteUserById = async (id) => {
     try {
         const findUser = await User.findByPk(id);
 
         if (!findUser) {
+            console.log("*************************************************************************");
             console.log("deleteUserById", "Usuario no encontrado.");
+            console.log("*************************************************************************");
             return;
         }
 
@@ -107,9 +134,13 @@ User.deleteUserById = async () => {
             },
         });
 
+        console.log("*************************************************************************");
         console.log("El Usuario ha sido eliminado sin problemas.");
+        console.log("*************************************************************************");
     } catch (error) {
+        console.log("*************************************************************************");
         console.log("deleteUserById", error.meesage);
+        console.log("*************************************************************************");
     }
 };
 
