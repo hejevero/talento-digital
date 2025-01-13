@@ -19,7 +19,7 @@ User.createUser = async ({ firstName, lastName, email } = {}) => {
             }
         }
     } catch (error) {
-        console.log(error.message);
+        console.log("createUser", error.message);
     }
 };
 
@@ -43,7 +43,73 @@ User.findUserById = async (id) => {
 
         return findUser;
     } catch (error) {
-        console.log(error.message);
+        console.log("findUserById", error.message);
+    }
+};
+
+User.findAllUsers = async () => {
+    try {
+        const allUsers = await User.findAll({
+            include: [
+                {
+                    model: Bootcamp,
+                    as: "bootcamp",
+                },
+            ],
+        });
+
+        console.log(allUsers);
+    } catch (error) {
+        console.log("findAll", error.message);
+    }
+};
+
+User.updateUserById = async (id, firstName, lastName, email) => {
+    try {
+        const findUser = await User.findByPk(id);
+
+        if (!findUser) {
+            console.log("updateUserById", "Usuario no encontrado");
+            return;
+        }
+
+        await User.update(
+            {
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+            },
+            {
+                where: {
+                    id: findUser.id,
+                },
+            }
+        );
+
+        console.log("El usuario ha sido actualizado sin problemas.");
+    } catch (error) {
+        console.log("updateUserById", error.message);
+    }
+};
+
+User.deleteUserById = async () => {
+    try {
+        const findUser = await User.findByPk(id);
+
+        if (!findUser) {
+            console.log("deleteUserById", "Usuario no encontrado.");
+            return;
+        }
+
+        User.destroy({
+            where: {
+                id: findUser.id,
+            },
+        });
+
+        console.log("El Usuario ha sido eliminado sin problemas.");
+    } catch (error) {
+        console.log("deleteUserById", error.meesage);
     }
 };
 
