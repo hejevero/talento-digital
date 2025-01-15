@@ -1,13 +1,31 @@
 {
-    "name": "practica-consolidacion",
+    "name": "exercise_one_to_many",
     "version": "1.0.0",
-    "main": "index.js",
+    "description": "exercise_one_to_many",
+    "main": "server.js",
     "scripts": {
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon server.js"
     },
-    "keywords": [],
+    "keywords": [
+        "node.js",
+        "sequelize",
+        "one-to-many",
+        "association"
+    ],
     "author": "Helmo Velásquez",
     "license": "MIT",
-    "description": "Practica de consolidación del modulo 8"
+    "dependencies": {
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.20.3",
+        "cors": "^2.8.5",
+        "express": "^4.21.2",
+        "jsonwebtoken": "^9.0.2",
+        "pg": "^8.7.3",
+        "pg-hstore": "^2.3.4",
+        "sequelize": "^6.6.2"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.9"
+    }
 }
-
