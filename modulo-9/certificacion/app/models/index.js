@@ -23,6 +23,7 @@ db.usuario = require("./usuario.model")(sequelize, Sequelize);
 db.categoria = require("./categoria.model")(sequelize, Sequelize);
 db.equipo = require("./equipo.model")(sequelize, Sequelize);
 db.material = require("./material.model")(sequelize, Sequelize);
+db.materialEquipo = require("./materialEquipo.model")(sequelize, Sequelize);
 
 db.equipo.belongsTo(db.categoria, {
     as: "categoria",

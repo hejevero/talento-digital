@@ -4,6 +4,7 @@ module.exports = {
     PASSWORD: "Hejevero1993",
     DB: "gestion_deportes",
     dialect: "postgres",
+    PORT: 5432,
     define: {
         timestamps: false,
     },
@@ -14,4 +15,3 @@ module.exports = {
         idle: 10000,
     },
 };
-

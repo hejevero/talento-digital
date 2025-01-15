@@ -3,12 +3,15 @@ const { create } = require("express-handlebars");
 const db = require("./app/models");
 const routes = require("./app/routes/web.js");
 const path = require("path");
+const cors = require("cors");
+const materialesSeed = require("./app/database/seed/materiales.seed.js");
 
 //Puerto principal de trabajo
 const app = express();
 const PORT = 3000;
 
 //Middleware express
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -29,7 +32,19 @@ app.set("views", "./app/views");
 app.use(express.static(path.join(__dirname, "app/public")));
 
 //Inicializar base de datos
-const run = async () => {};
+const run = async () => {
+    console.log(`validando datos almacenados en la base de datos`);
+    //Seed
+    let usuariosSeed = require("./app/database/seed/usuarios.seed.js");
+    let categoriasSeed = require("./app/database/seed/categorias.seed.js");
+    let equiposSeed = require("./app/database/seed/equipos.seed.js");
+    let materialesSeed = require("./app/database/seed/materiales.seed.js");
+
+    await usuariosSeed();
+    await categoriasSeed();
+    await equiposSeed();
+    await materialesSeed();
+};
 
 //Inicializar el servidor
 const main = async () => {
@@ -41,13 +56,13 @@ const main = async () => {
 //Rutas
 app.use("/", routes);
 
-//db.sequelize.sync()
+//Sincronizar base de datos
 db.sequelize
     .sync({
         force: false,
     })
     .then(async () => {
-        console.log("Eliminando y resincronizando la base de datos.");
+        console.log("Iniciando los servicios de sequelize.");
         await run();
 
         main();
